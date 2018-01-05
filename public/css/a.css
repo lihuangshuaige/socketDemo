@@ -1,0 +1,16 @@
+html,
+body {
+    overflow: hidden;
+    height: 100%;
+    background: #000;
+}
+
+.cover{
+    height: 100%;
+}
+.cover .cover_left {
+    width: 50%;
+    height:100%;
+    background: url("/static/img/cover_lbg.jpg");
+    background-size:cover; 
+}
