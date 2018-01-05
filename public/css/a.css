@@ -13,19 +13,73 @@ body {
     height: 100%;
 }
 .cover{
+    position: relative;
+    height: 100%;
+}
+.cover_box{
     height: 100%;
     display: flex;
-    
 }
 .cover .cover_left {
+    position: relative;
     flex: 1;
     height:100%;
     background: url("/static/img/cover_lbg.jpg");
     background-size:cover; 
 }
 .cover .cover_right {
+    position: relative;
     flex: 1;
     height:100%;
     background: url("/static/img/cover_rbg.jpg");
     background-size:cover; 
+}
+.start{
+    position: absolute;
+    left: 50%;
+    bottom:.5625rem;
+    width: 1.5rem;
+    margin-left: -.75rem;
+}
+.ctouch{
+    position: absolute;
+    bottom: .09375rem;
+    left: 50%;
+    margin-left: -1.25rem;
+    width: 2.5rem;
+    height: 2.5rem;
+}
+.cl_h1{
+    position: absolute;
+    right: 0;
+    top:50%;
+    width: 2.046875rem;
+    margin-top:-7rem;
+}
+.cl_tv{
+    position: absolute;
+    left: 0;
+    top:50%;
+    width: 2.6875rem;
+    margin-top:-3rem;
+}
+.cr_h1{
+    position: absolute;
+    left: 0;
+    top:50%;
+    width: 1.03125rem;
+    margin-top:-6.734375rem;
+}
+.cr_text{
+    position: absolute;
+    left: 1.25rem;
+    top:2rem;
+    width: 2.265625rem;
+}
+.cr_phone{
+    position: absolute;
+    right: 0;
+    top:50%;
+    margin-top: -4rem;
+    width: 2.78125rem;
 }
