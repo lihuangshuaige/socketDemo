@@ -15,8 +15,8 @@
 
 <body class="half_life">
     <div class="wrapper">
-        <div class="content">
-            <section class="cover">
+        <div class="content por">
+            <section class="cover hid">
                 <div class="cover_box">
                     <div class="cover_left cover_item">
                         <img src="/static/img/cl_h1.png" alt="" class="cl_h1">
@@ -31,15 +31,61 @@
                 <img src="/static/img/open_btn.png" alt="startBtn" class="start">
                 <img src="/static/img/ctouch.svg" alt="" class="ctouch">
             </section>
+            <section class="mode">
+                <img src="/static/img/text1.png" alt="" class="text1">
+                <br>
+                <img src="/static/img/text2.png" alt="" class="text2">
+                <div class="h1_mode">
+                    <img src="/static/img/single.png" alt="单机" class="single_mode">
+                    <img src="/static/img/double.png" alt="双机" class="double_mode">
+                </div>
+                <p class="cue">* 请在wifi条件下阅读，请打开手机音效</p>
+            </section>
+            <section class="qrcode">
+                <img src="/static/img/text_a1.png" alt="" class="text_a1">
+                <div id="qrcode"></div>
+            </section>
         </div>
     </div>
     <script src="https://cdn.bootcss.com/zepto/1.2.0/zepto.min.js"></script>
     <script src="/static/js/shoushi.js"></script>
+    <script src="/static/js/qrcode.js"></script>
+    <script src="https://cdn.bootcss.com/velocity/1.5.0/velocity.js"></script>
+
     <script>
         /* 点击开始按钮 */
         new AlloyFinger($(".start")[0], {
             singleTap: function () {
-                alert(1);
+                $(".cover_left").velocity({
+                    translateX: ["-100%", 0]
+                }, {
+                    duration: 2000,
+                    complete: function () {
+                        $(".cover").addClass("hid");
+                    }
+                });
+                $(".cover_right").velocity({
+                    translateX: ["100%", 0]
+                }, {
+                    duration: 2000
+                });
+                $(this).hide();
+                $(".ctouch").hide();
+            }
+        });
+        new AlloyFinger($(".double_mode")[0], {
+            singleTap: function () {
+                $(".mode").hide();
+                var socket = io.connect();
+                var roomid = null;
+                socket.on("connect", function () {
+                    socket.emit("registerRoom",socket.id)
+                    new QRCode(document.getElementById('qrcode'), {
+                        text: "http://10.97.204.166:2018/playb/"+socket.id,
+                        width: 290,
+                        height: 290
+                    });
+                });
             }
         });
     </script>

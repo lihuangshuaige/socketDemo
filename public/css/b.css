@@ -1,0 +1,23 @@
+.hid {
+    display: none;
+}
+
+.por {
+    position: relative;
+}
+
+.poa {
+    position: absolute;
+}
+
+html,
+body {
+    overflow: hidden;
+    height: 100%;
+    background: #000;
+    font-size: 12px;
+}
+
+.double_player {
+    height: 100%;
+}

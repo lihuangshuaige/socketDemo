@@ -16,3 +16,12 @@ app.set('views', __dirname + '/views');
 app.get("/", function (req, res) {
     res.render("a");
 });
+app.get("/playb/:id", function (req, res) {
+    res.render("b");
+});
+io.on("connection",function(socket){
+    console.log("已连接");
+    socket.on("registerRoom",function(data){
+        console.log(data);
+    });
+});
