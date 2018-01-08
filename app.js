@@ -19,9 +19,41 @@ app.get("/", function (req, res) {
 app.get("/playb/:id", function (req, res) {
     res.render("b");
 });
-io.on("connection",function(socket){
+var onlineRooms = {};
+var roomid = null;
+var count = 0;
+io.on("connection", function (socket) {
     console.log("已连接");
-    socket.on("registerRoom",function(data){
+    socket.on("registerRoom", function (data) {
         console.log(data);
+        roomid = data;
+        if (!onlineRooms.hasOwnProperty(data)) {
+            var room = {
+                id: data,
+                user: []
+            };
+            socket.emit("registerSuccess", room.id);
+            onlineRooms[data] = room;
+            console.log(onlineRooms);
+            socket.join(data);
+        } else {
+            socket.emit("roomExist");
+        }
     });
+    socket.on("playbJoin", function () {
+        if (onlineRooms[roomid].user.length < 1) {
+            count++;
+            var user = {
+                uid: roomid + count
+            };
+            onlineRooms[roomid].user.push(user);
+            socket.join(roomid);
+            io.sockets.to(roomid).emit("playbJoin");
+        } else {
+            io.sockets.to(roomid).emit('phoneEnough');
+        }
+    });
+    // socket.on("disconnect", function () {
+    //     console.log("断开连接");
+    // });
 });

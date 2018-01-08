@@ -45,6 +45,16 @@
                 <img src="/static/img/text_a1.png" alt="" class="text_a1">
                 <div id="qrcode"></div>
             </section>
+            <!-- 正在寻找 -->
+            <section class="seek">
+                <img src="/static/img/text_a3.png" alt="" class="text_a3">
+                <ul class="waiting_playerb">
+                    <li class="current"></li>
+                    <li></li>
+                    <li></li>
+                    <li class="last"></li>
+                </ul>
+            </section>
         </div>
     </div>
     <script src="https://cdn.bootcss.com/zepto/1.2.0/zepto.min.js"></script>
@@ -73,17 +83,33 @@
                 $(".ctouch").hide();
             }
         });
+        /* 点击双机模式 */
         new AlloyFinger($(".double_mode")[0], {
             singleTap: function () {
                 $(".mode").hide();
                 var socket = io.connect();
                 var roomid = null;
                 socket.on("connect", function () {
-                    socket.emit("registerRoom",socket.id)
-                    new QRCode(document.getElementById('qrcode'), {
-                        text: "http://10.97.204.166:2018/playb/"+socket.id,
-                        width: 290,
-                        height: 290
+                    socket.emit("registerRoom", socket.id);
+                    socket.on("registerSuccess", function (data) {
+                        new QRCode(document.getElementById('qrcode'), {
+                            text: "http://10.97.204.166:2018/playb/" + data,
+                            width: 290,
+                            height: 290
+                        });
+                    });
+                    socket.on("playbJoin", function () {
+                        $(".qrcode").hide();
+                        var index = 0;
+                        function waitplayb() {
+                            if (index > 3) {
+                                index = 0;
+                            }
+                            $(".waiting_playerb li").removeClass("current");
+                            $(".waiting_playerb li").eq(index).addClass("current");
+                            index++;
+                        }
+                        setInterval(waitplayb, 1000);
                     });
                 });
             }
