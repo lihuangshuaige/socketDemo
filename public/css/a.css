@@ -55,7 +55,7 @@ body {
     background-size: cover;
 }
 
-.start {
+.open {
     z-index: 99;
     position: absolute;
     left: 50%;
@@ -203,5 +203,36 @@ body {
     margin-right: 0;
 }
 .waiting_playerb li.current {
-    background: url("/static/img/dot.png") no-repeat -.3125rem 0;
+    background-position-x: -.3125rem;
+}
+
+.join {
+    height: 100%;
+    background: url("/static/img/dpa_bg.jpg") no-repeat 0 0;
+    background-size: cover;
+    text-align: center;
+}
+
+.text_a4 {
+    margin-top: 1rem;
+    width: 2.84375rem;
+}
+
+.start_btn {
+    margin-top: 1rem;
+    width: 4.6875rem;
+}
+
+.hand {
+    width: 2.59375rem;
+    animation: handmove 2s ease-in-out infinite;
+}
+
+@keyframes handmove {
+    0% {
+        margin-top: -1rem;
+    }
+    100% {
+        margin-top: 0rem;
+    }
 }

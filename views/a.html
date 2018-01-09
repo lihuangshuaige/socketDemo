@@ -28,7 +28,7 @@
                         <img src="/static/img/cr_phone.png" alt="" class="cr_phone">
                     </div>
                 </div>
-                <img src="/static/img/open_btn.png" alt="startBtn" class="start">
+                <img src="/static/img/open_btn.png" alt="startBtn" class="open">
                 <img src="/static/img/ctouch.svg" alt="" class="ctouch">
             </section>
             <section class="mode">
@@ -55,6 +55,14 @@
                     <li class="last"></li>
                 </ul>
             </section>
+            <!-- playerb 加入-->
+            <section class="join">
+                <img src="/static/img/text_a4.png" alt="" class="text_a4">
+                <br>
+                <img src="/static/img/start_btn.png" alt="" class="start_btn">
+                <br>
+                <img src="/static/img/hand.png" alt="" class="hand">
+            </section>
         </div>
     </div>
     <script src="https://cdn.bootcss.com/zepto/1.2.0/zepto.min.js"></script>
@@ -63,8 +71,16 @@
     <script src="https://cdn.bootcss.com/velocity/1.5.0/velocity.js"></script>
 
     <script>
+        function MathRand() {
+            var num = "";
+            for (var i = 0; i < 6; i++) {
+                num += Math.floor(Math.random() * 10);
+            }
+            return num;
+        }
+        console.log(MathRand());
         /* 点击开始按钮 */
-        new AlloyFinger($(".start")[0], {
+        new AlloyFinger($(".open")[0], {
             singleTap: function () {
                 $(".cover_left").velocity({
                     translateX: ["-100%", 0]
@@ -89,28 +105,45 @@
                 $(".mode").hide();
                 var socket = io.connect();
                 var roomid = null;
-                socket.on("connect", function () {
-                    socket.emit("registerRoom", socket.id);
-                    socket.on("registerSuccess", function (data) {
-                        new QRCode(document.getElementById('qrcode'), {
-                            text: "http://10.97.204.166:2018/playb/" + data,
-                            width: 290,
-                            height: 290
-                        });
+                socket.emit("registerRoom", MathRand());
+                socket.on("registerSuccess", function (data) {
+                    new QRCode(document.getElementById('qrcode'), {
+                        text: "http://10.97.204.166:2018/playb/" + data,
+                        width: 290,
+                        height: 290
                     });
-                    socket.on("playbJoin", function () {
-                        $(".qrcode").hide();
-                        var index = 0;
-                        function waitplayb() {
-                            if (index > 3) {
-                                index = 0;
-                            }
-                            $(".waiting_playerb li").removeClass("current");
-                            $(".waiting_playerb li").eq(index).addClass("current");
-                            index++;
+                });
+                socket.on("playbJoin", function () {
+                    $(".qrcode").hide();
+                    var index = 0;
+
+                    function waitplayb() {
+                        if (index > 3) {
+                            index = 0;
                         }
-                        setInterval(waitplayb, 1000);
-                    });
+                        $(".waiting_playerb li").removeClass("current");
+                        $(".waiting_playerb li").eq(index).addClass("current");
+                        index++;
+                    }
+                    setInterval(waitplayb, 1000);
+                });
+                socket.on("playbClickJoin", function () {
+                    console.log("用户B点击了加入按钮");
+                    $(".seek").hide();
+                });
+                new AlloyFinger($(".start_btn")[0], {
+                    singleTap: function () {
+                        console.log(socket);
+                        $(".join").hide();
+                        socket.emit("playaClickStart");
+                        alert(1);
+                    }
+                });
+                socket.on("reconnect", function () {
+                    alert("重新连接");
+                });
+                socket.on("disconnect", function () {
+                    alert("断开连接");
                 });
             }
         });

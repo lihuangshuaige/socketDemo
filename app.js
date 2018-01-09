@@ -27,7 +27,7 @@ app.get("/playb/:id", function (req, res) {
 var onlineRooms = {};
 var roomid = null;
 var count = 0;
-io.on("connection", function (socket) {
+io.sockets.on("connection", function (socket) {
     console.log("已连接");
     socket.on("registerRoom", function (data) {
         console.log(data);
@@ -46,21 +46,33 @@ io.on("connection", function (socket) {
         }
     });
     socket.on("playbJoin", function (data) {
-        if (onlineRooms[roomid].user.length < 1) {
-            if (data == roomid) {
-                count++;
-                var user = {
-                    uid: roomid + count
-                };
-                onlineRooms[roomid].user.push(user);
-                socket.join(data);
-                io.sockets.to(roomid).emit("playbJoin");
+        if (roomid) {
+            if (onlineRooms[roomid].user.length < 1) {
+                if (data == roomid) {
+                    count++;
+                    var user = {
+                        uid: roomid + count
+                    };
+                    onlineRooms[roomid].user.push(user);
+                    socket.join(data);
+                    io.sockets.to(roomid).emit("playbJoin");
+                    socket.on("playbClickJoin", function () {
+                        console.log("用户B点击了join按钮");
+                        io.sockets.to(data).emit("playbClickJoin");
+                    });
+                }
+            } else {
+                io.sockets.to(roomid).emit('phoneEnough');
             }
         } else {
-            io.sockets.to(roomid).emit('phoneEnough');
+            console.log("请先注册房间");
         }
     });
-    // socket.on("disconnect", function () {
-    //     console.log("断开连接");
-    // });
+    socket.on("playaClickStart", function () {
+        console.log("用户A点击了start按钮");
+        io.sockets.to(roomid).emit("playaClickStart");
+    });
+    socket.on("disconnect", function () {
+        console.log("断开连接");
+    });
 });

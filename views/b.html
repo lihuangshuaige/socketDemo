@@ -18,21 +18,41 @@
         <div class="wrapper">
             <h1 style="width:0;height:0;visibility:hidden;" id="roomid">{{{data}}}</h1>
             <section class="join">
-
+                <img src="/static/img/text_b1.png" alt="" class="text_b1">
+                <br>
+                <img src="/static/img/join_btn.png" alt="" class="join_btn">
+                <br>
+                <img src="/static/img/hand.png" alt="" class="hand">
+                <br>
+            </section>
+            <!-- 等待 -->
+            <section class="waiting">
+                <img src="/static/img/wait_btn_disable.png" alt="" class="waiting_img">
             </section>
         </div>
     </div>
     <script src="https://cdn.bootcss.com/zepto/1.2.0/zepto.min.js"></script>
+    <script src="/static/js/shoushi.js"></script>
+
     <script>
-        var id=$("#roomid").text();
+        var id = $("#roomid").text();
         console.log(id);
         var socket = io.connect();
-        socket.on("connect", function () {
-            socket.emit("playbJoin",id);
+        // socket.on("connect", function () {
+            socket.emit("playbJoin", id);
             socket.on("phoneEnough", function () {
                 alert("该链接已经配对成功了");
                 window.location.href = "http://localhost:2018/";
             });
+        // });
+        socket.on("playaClickStart", function () {
+            alert("用户A点击了开始按钮");
+        });
+        new AlloyFinger($(".join_btn")[0], {
+            singleTap: function () {
+                socket.emit("playbClickJoin");
+                $(".join").hide();
+            }
         });
     </script>
 </body>
