@@ -17,7 +17,12 @@ app.get("/", function (req, res) {
     res.render("a");
 });
 app.get("/playb/:id", function (req, res) {
-    res.render("b");
+    if (req.params.id) {
+        console.log(req.params.id);
+        res.render("b", {
+            data: req.params.id
+        });
+    }
 });
 var onlineRooms = {};
 var roomid = null;
@@ -40,15 +45,17 @@ io.on("connection", function (socket) {
             socket.emit("roomExist");
         }
     });
-    socket.on("playbJoin", function () {
+    socket.on("playbJoin", function (data) {
         if (onlineRooms[roomid].user.length < 1) {
-            count++;
-            var user = {
-                uid: roomid + count
-            };
-            onlineRooms[roomid].user.push(user);
-            socket.join(roomid);
-            io.sockets.to(roomid).emit("playbJoin");
+            if (data == roomid) {
+                count++;
+                var user = {
+                    uid: roomid + count
+                };
+                onlineRooms[roomid].user.push(user);
+                socket.join(data);
+                io.sockets.to(roomid).emit("playbJoin");
+            }
         } else {
             io.sockets.to(roomid).emit('phoneEnough');
         }

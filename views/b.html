@@ -16,15 +16,19 @@
 <body>
     <div class="double_player">
         <div class="wrapper">
+            <h1 style="width:0;height:0;visibility:hidden;" id="roomid">{{{data}}}</h1>
             <section class="join">
 
             </section>
         </div>
     </div>
+    <script src="https://cdn.bootcss.com/zepto/1.2.0/zepto.min.js"></script>
     <script>
+        var id=$("#roomid").text();
+        console.log(id);
         var socket = io.connect();
         socket.on("connect", function () {
-            socket.emit("playbJoin");
+            socket.emit("playbJoin",id);
             socket.on("phoneEnough", function () {
                 alert("该链接已经配对成功了");
                 window.location.href = "http://localhost:2018/";
