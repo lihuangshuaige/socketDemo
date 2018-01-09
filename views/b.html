@@ -23,11 +23,11 @@
     </div>
     <script>
         var socket = io.connect();
-        socket.on("connect",function(){
+        socket.on("connect", function () {
             socket.emit("playbJoin");
-            socket.on("phoneEnough",function(){
+            socket.on("phoneEnough", function () {
                 alert("该链接已经配对成功了");
-                window.location.href="http://localhost:2018/"
+                window.location.href = "http://localhost:2018/";
             });
         });
     </script>
