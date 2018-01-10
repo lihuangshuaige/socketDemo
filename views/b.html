@@ -38,13 +38,11 @@
         var id = $("#roomid").text();
         console.log(id);
         var socket = io.connect();
-        // socket.on("connect", function () {
-            socket.emit("playbJoin", id);
-            socket.on("phoneEnough", function () {
-                alert("该链接已经配对成功了");
-                window.location.href = "http://localhost:2018/";
-            });
-        // });
+        socket.emit("playbJoin", id);
+        socket.on("phoneEnough", function () {
+            alert("该链接已经配对成功了");
+            window.location.href = "http://localhost:2018/";
+        });
         socket.on("playaClickStart", function () {
             alert("用户A点击了开始按钮");
         });

@@ -71,6 +71,7 @@
     <script src="https://cdn.bootcss.com/velocity/1.5.0/velocity.js"></script>
 
     <script>
+        /* 生成一个随机的6位数的roomid */
         function MathRand() {
             var num = "";
             for (var i = 0; i < 6; i++) {
@@ -78,7 +79,6 @@
             }
             return num;
         }
-        console.log(MathRand());
         /* 点击开始按钮 */
         new AlloyFinger($(".open")[0], {
             singleTap: function () {
@@ -136,7 +136,6 @@
                         console.log(socket);
                         $(".join").hide();
                         socket.emit("playaClickStart");
-                        alert(1);
                     }
                 });
                 socket.on("reconnect", function () {
