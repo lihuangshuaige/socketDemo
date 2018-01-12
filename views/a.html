@@ -31,7 +31,7 @@
                 <img src="/static/img/open_btn.png" alt="startBtn" class="open">
                 <img src="/static/img/ctouch.svg" alt="" class="ctouch">
             </section>
-            <section class="mode">
+            <section class="mode hid">
                 <img src="/static/img/text1.png" alt="" class="text1">
                 <br>
                 <img src="/static/img/text2.png" alt="" class="text2">
@@ -41,12 +41,12 @@
                 </div>
                 <p class="cue">* 请在wifi条件下阅读，请打开手机音效</p>
             </section>
-            <section class="qrcode">
+            <section class="qrcode hid">
                 <img src="/static/img/text_a1.png" alt="" class="text_a1">
                 <div id="qrcode"></div>
             </section>
             <!-- 正在寻找 -->
-            <section class="seek">
+            <section class="seek hid">
                 <img src="/static/img/text_a3.png" alt="" class="text_a3">
                 <ul class="waiting_playerb">
                     <li class="current"></li>
@@ -56,12 +56,25 @@
                 </ul>
             </section>
             <!-- playerb 加入-->
-            <section class="join">
+            <section class="join hid">
                 <img src="/static/img/text_a4.png" alt="" class="text_a4">
                 <br>
                 <img src="/static/img/start_btn.png" alt="" class="start_btn">
                 <br>
                 <img src="/static/img/hand.png" alt="" class="hand">
+            </section>
+            <!-- 视频加载 -->
+            <section class="vloading hid">
+                <img src="/static/img/moon.png" alt="" class="moon">
+                <div class="loading_progress">
+                    <div class="bar"></div>
+                </div>
+            </section>
+            <!-- 视频 -->
+            <section class="video">
+                <video preload="auto" x-webkit-airplay="true" webkit-playsinline="true" id="past_video">
+                    <source src="/static/video/a.mp4" type="video/mp4"/>
+                </video>
             </section>
         </div>
     </div>
