@@ -72,6 +72,12 @@ io.sockets.on("connection", function (socket) {
         console.log("用户A点击了start按钮");
         io.sockets.to(roomid).emit("playaClickStart");
     });
+    socket.on("playaBarEnd",function(){
+        io.sockets.to(roomid).emit("playbBarStart");
+    });
+    socket.on("playbBarEnd",function(){
+        io.sockets.to(roomid).emit("play");
+    });
     socket.on("disconnect", function () {
         console.log("断开连接");
     });

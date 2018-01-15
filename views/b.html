@@ -26,8 +26,29 @@
                 <br>
             </section>
             <!-- 等待 -->
-            <section class="waiting">
+            <section class="waiting hid">
                 <img src="/static/img/wait_btn_disable.png" alt="" class="waiting_img">
+            </section>
+            <!-- 视频加载页面 -->
+            <section class="vloading hid">
+                <img src="/static/img/moon.png" alt="" class="moon">
+                <div class="loading_progress">
+                    <div class="bar"></div>
+                </div>
+            </section>
+            <!-- 播放页面 -->
+            <section class="play_page hid">
+                <img src="/static/img/play_btn.png" alt="" class="play_btn">
+            </section>
+            <!-- 视频 -->
+            <section class="video hid">
+                <video preload="auto" x-webkit-airplay="true" webkit-playsinline="true" id="past_video">
+                    <source src="/static/video/b.mp4" type="video/mp4" />
+                </video>
+            </section>
+            <!-- 封底 -->
+            <section class="dp_back">
+                <img src="/static/img/text_back.png" alt="" class="text_back">
             </section>
         </div>
     </div>
@@ -35,6 +56,12 @@
     <script src="/static/js/shoushi.js"></script>
 
     <script>
+        /* 监听视频文件的加载 */
+        var flag = false;
+        $("video")[0].addEventListener("canplaythrough", function () {
+            flag = true;
+            console.log(flag);
+        });
         var id = $("#roomid").text();
         console.log(id);
         var socket = io.connect();
@@ -44,12 +71,29 @@
             window.location.href = "http://localhost:2018/";
         });
         socket.on("playaClickStart", function () {
-            alert("用户A点击了开始按钮");
+            $(".waiting").hide();
+        });
+        socket.on("playbBarStart", function () {
+            $(".bar").width("100%");
+            $(".bar")[0].addEventListener("webkitTransitionEnd", function () {
+                socket.emit("playbBarEnd");
+                $(".vloading").hide();
+            });
         });
         new AlloyFinger($(".join_btn")[0], {
             singleTap: function () {
                 socket.emit("playbClickJoin");
                 $(".join").hide();
+            }
+        });
+        new AlloyFinger($(".play_btn")[0], {
+            singleTap: function () {
+                if (flag) {
+                    $(".play_page").hide();
+                    $("video")[0].play();
+                } else {
+                    alert("视频未加载完成");
+                }
             }
         });
     </script>
