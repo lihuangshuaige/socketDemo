@@ -80,6 +80,10 @@
                     <source src="/static/video/a.mp4" type="video/mp4" />
                 </video>
             </section>
+            <!-- 封底 -->
+            <section class="dp_back">
+                <img src="/static/img/text_back.png" alt="" class="text_back">
+            </section>
         </div>
     </div>
     <script src="https://cdn.bootcss.com/zepto/1.2.0/zepto.min.js"></script>
@@ -101,6 +105,10 @@
         $("video")[0].addEventListener("canplaythrough", function () {
             flag = true;
             console.log(flag);
+        });
+        $("video")[0].addEventListener("ended", function () {
+            console.log("播放完毕");
+            $(".video").hide();
         });
         /* 点击开始按钮 */
         new AlloyFinger($(".open")[0], {
@@ -173,7 +181,7 @@
                         if (flag) {
                             $(".play_page").hide();
                             $("video")[0].play();
-                        }else{
+                        } else {
                             alert("视频未加载完成");
                         }
                     }

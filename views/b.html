@@ -26,22 +26,22 @@
                 <br>
             </section>
             <!-- 等待 -->
-            <section class="waiting hid">
+            <section class="waiting">
                 <img src="/static/img/wait_btn_disable.png" alt="" class="waiting_img">
             </section>
             <!-- 视频加载页面 -->
-            <section class="vloading hid">
+            <section class="vloading">
                 <img src="/static/img/moon.png" alt="" class="moon">
                 <div class="loading_progress">
                     <div class="bar"></div>
                 </div>
             </section>
             <!-- 播放页面 -->
-            <section class="play_page hid">
+            <section class="play_page">
                 <img src="/static/img/play_btn.png" alt="" class="play_btn">
             </section>
             <!-- 视频 -->
-            <section class="video hid">
+            <section class="video">
                 <video preload="auto" x-webkit-airplay="true" webkit-playsinline="true" id="past_video">
                     <source src="/static/video/b.mp4" type="video/mp4" />
                 </video>
@@ -61,6 +61,10 @@
         $("video")[0].addEventListener("canplaythrough", function () {
             flag = true;
             console.log(flag);
+        });
+        $("video")[0].addEventListener("ended", function () {
+            console.log("播放完毕");
+            $(".video").hide();
         });
         var id = $("#roomid").text();
         console.log(id);
