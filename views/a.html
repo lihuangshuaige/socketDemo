@@ -10,7 +10,9 @@
     <title>1/2的生活</title>
     <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
     <link rel="stylesheet" href="/static/css/a.css">
-    <script src="/socket.io/socket.io.js"></script>
+    <!-- <script src="/static/js/socket.io.js"></script> -->
+    <!-- <script src="/socket.io/socket.io.js"></script> -->
+    <script src="https://cdn.bootcss.com/socket.io/2.0.4/socket.io.js"></script>
 </head>
 
 <body class="half_life">
@@ -36,7 +38,7 @@
                 <br>
                 <img src="/static/img/text2.png" alt="" class="text2">
                 <div class="h1_mode">
-                    <img src="/static/img/single.png" alt="单机" class="single_mode">
+                    <!-- <img src="/static/img/single.png" alt="单机" class="single_mode"> -->
                     <img src="/static/img/double.png" alt="双机" class="double_mode">
                 </div>
                 <p class="cue">* 请在wifi条件下阅读，请打开手机音效</p>
@@ -90,19 +92,10 @@
     <script src="/static/js/shoushi.js"></script>
     <script src="/static/js/qrcode.js"></script>
     <script src="https://cdn.bootcss.com/velocity/1.5.0/velocity.js"></script>
-
     <script>
-        /* 生成一个随机的6位数的roomid */
-        function MathRand() {
-            var num = "";
-            for (var i = 0; i < 6; i++) {
-                num += Math.floor(Math.random() * 10);
-            }
-            return num;
-        }
         /* 监听视频文件的加载 */
         var flag = false;
-        $("video")[0].addEventListener("canplaythrough", function () {
+        $("video")[0].addEventListener("canplay", function () {
             flag = true;
             console.log(flag);
         });
@@ -131,15 +124,16 @@
             }
         });
         /* 点击双机模式 */
+        var url = window.location.href;
         new AlloyFinger($(".double_mode")[0], {
             singleTap: function () {
                 $(".mode").hide();
-                var socket = io.connect();
+                var socket = io.connect("ws://halflife.qqhndyw.xyz");
                 var roomid = null;
-                socket.emit("registerRoom", MathRand());
+                socket.emit("registerRoom", Math.random().toString(36).substr(2));
                 socket.on("registerSuccess", function (data) {
                     new QRCode(document.getElementById('qrcode'), {
-                        text: "http://10.97.204.166:2018/playb/" + data,
+                        text: url + "/playb/" + data,
                         width: 290,
                         height: 290
                     });
@@ -178,12 +172,14 @@
                 });
                 new AlloyFinger($(".play_btn")[0], {
                     singleTap: function () {
-                        if (flag) {
-                            $(".play_page").hide();
-                            $("video")[0].play();
-                        } else {
-                            alert("视频未加载完成");
-                        }
+                        // if (flag) {
+                        //     $(".play_page").hide();
+                        //     $("video")[0].play();
+                        // } else {
+                        //     alert("视频未加载完成");
+                        // }
+                        $(".play_page").hide();
+                        $("video")[0].play();
                     }
                 });
                 socket.on("reconnect", function () {

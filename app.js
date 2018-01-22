@@ -5,7 +5,7 @@ var http = require("http").Server(app);
 var io = require("socket.io")(http);
 var qrcode = require("qrcode-npm");
 var uuid = require('node-uuid');
-var port = 2018;
+var port = 2218;
 http.listen(port, function () {
     console.log("http://localhost:" + port);
 });
@@ -62,7 +62,7 @@ io.sockets.on("connection", function (socket) {
                     });
                 }
             } else {
-                io.sockets.to(roomid).emit('phoneEnough');
+                // io.sockets.to(roomid).emit('phoneEnough');
             }
         } else {
             console.log("请先注册房间");

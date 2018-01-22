@@ -10,7 +10,9 @@
     <title>1/2的生活</title>
     <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
     <link rel="stylesheet" href="/static/css/b.css">
-    <script src="/socket.io/socket.io.js"></script>
+    <!-- <script src="/static/js/socket.io.js"></script> -->
+    <!-- <script src="/socket.io/socket.io.js"></script> -->
+    <script src="https://cdn.bootcss.com/socket.io/2.0.4/socket.io.js"></script>
 </head>
 
 <body>
@@ -68,12 +70,12 @@
         });
         var id = $("#roomid").text();
         console.log(id);
-        var socket = io.connect();
+        var socket = io.connect("ws://halflife.qqhndyw.xyz");
         socket.emit("playbJoin", id);
-        socket.on("phoneEnough", function () {
-            alert("该链接已经配对成功了");
-            window.location.href = "http://localhost:2018/";
-        });
+        // socket.on("phoneEnough", function () {
+        //     alert("该链接已经配对成功了");
+        //     window.location.href = "http://halflife.qqhndyw.xyz/";
+        // });
         socket.on("playaClickStart", function () {
             $(".waiting").hide();
         });
@@ -92,12 +94,14 @@
         });
         new AlloyFinger($(".play_btn")[0], {
             singleTap: function () {
-                if (flag) {
-                    $(".play_page").hide();
-                    $("video")[0].play();
-                } else {
-                    alert("视频未加载完成");
-                }
+                // if (flag) {
+                //     $(".play_page").hide();
+                //     $("video")[0].play();
+                // } else {
+                //     alert("视频未加载完成");
+                // }
+                $(".play_page").hide();
+                $("video")[0].play();
             }
         });
     </script>
